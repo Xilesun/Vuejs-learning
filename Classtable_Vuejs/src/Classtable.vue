@@ -144,18 +144,18 @@ export default {
       return this.$localStorage.get('classList');
     },
     dates () {
-      var date = new Date(),
-          start = date.setFullYear(2016,8,19), //设置初始日期
-          dates = this.days.map(function (day, i) {
-                    var end = date.setDate(date.getDate(start) + i + (this.selected - 1) * 7),
-                    time = new Date(end),
-                    //格式化日期
-                    mon = time.getMonth()+1 < 10 ? "0" + (time.getMonth() + 1) : time.getMonth() + 1,
-                    day = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();
-      
-                    time = mon + "." + day;
-                    return time;
-                  }, this);
+      var dates = this.days.map(function (day, i) {
+            var date = new Date(),
+                //设置初始日期
+                start = date.setFullYear(2016,8,19),
+                end = date.setDate(date.getDate(start) + i + (this.selected - 1) * 7),
+                time = new Date(end),
+                //格式化日期
+                mon = time.getMonth()+1 < 10 ? "0" + (time.getMonth() + 1) : time.getMonth() + 1,
+                theDay = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();
+                time = mon + "." + theDay;
+                return time;
+          }, this);
       return dates;
     },
   },
