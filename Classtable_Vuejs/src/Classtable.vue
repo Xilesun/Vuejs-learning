@@ -16,9 +16,6 @@
           <span>{{ lesson.subject }}</span><br />
           <span>{{ lesson.teacher }}</span><br />
           <span>{{ lesson.room }}</span><br />
-          <span v-if="lesson.subject != ''">
-            <button @click.stop="">delete</button>
-          </span>
         </div>
       </div>
     </div>

@@ -10,10 +10,17 @@
     </select>
     <label for="period">Period:</label><input v-model="period" type="input" id="period"></input><br /><br />
     <button @click.prevent="setFestivals">cancel</button>
-    <button @click.prevent="submit">submit</button>
+    <button @click.prevent="submit">submit</button><br /><br /><br />
+    <div v-if="selected_festival != ''">
+      <select v-model="selected_festival" id="festivals_name">
+        <option v-for="festival in festivals" :value="festival">{{ festival }}</option>
+      </select>
+      <button @click.prevent="deleteFestival">delete</button>
+    </div>
   </form>
 </template>
 <script>
+import clone from 'clone'
 export default {
   name: 'setFestivals',
   props: ['getClassTable','setFestivals', 'isSet','classData'],
@@ -24,7 +31,7 @@ export default {
       period: '',
       months: ['09', '10', '11', '12', '01'],
       selected_m: '09',
-      selected_d: 1,
+      selected_d: 1
     }
   },
   computed: {
@@ -39,6 +46,17 @@ export default {
           "period": period
         }
       }
+    },
+    festivals () {
+      var festivals = clone(this.classData.alter.festivals),
+          festivals_name = [];
+      festivals.forEach(function(item, index){
+        festivals_name.push(item.name);
+      })
+      return festivals_name;
+    },
+    selected_festival () {
+      return this.festivals[0] ? this.festivals[0] : ''
     }
   },
   methods: {
@@ -52,7 +70,18 @@ export default {
       this.$localStorage.set('classList', this.classData);
       this.getClassTable();
       this.setFestivals();
+    },
+    deleteFestival () {
+      var festivals = clone(this.classData.alter.festivals);
+      festivals.forEach(function (item, index){
+        if(item.name == this.selected_festival) {
+          this.classData.alter.festivals.splice(index, 1);
+        }
+      }, this);
+      this.$localStorage.set('classList', this.classData);
+      this.getClassTable();
+      this.setFestivals()
     }
-  }
+  },
 }
 </script>
