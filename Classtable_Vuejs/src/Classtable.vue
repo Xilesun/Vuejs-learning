@@ -1,8 +1,8 @@
 <template>
   <div id="container">
     <label for="col">col</label>
-    <input @change="display" type="radio" name="display" id="col" checked/>
-    <label for="row"></label>row<input @change="display" type="radio" name="display" id="row"/>
+    <input type="radio" name="display" id="col" value="col" v-model="layout" />
+    <label for="row"></label>row<input type="radio" name="display" id="row" value="row" v-model="layout" />
     <select v-model="selected">
       <option v-for="week in 16" :value="week">第{{ week }}周</option>
     </select>
@@ -55,19 +55,17 @@ export default {
   },
   data () {
     return {
-      isRow: false,
+      layout: 'col',
+      //isRow: false,
       isEdit: false,
       isSet: false,
-			days: ["Mon", "Tue", "Wed", "Thur", "Fri"],
+      days: ["Mon", "Tue", "Wed", "Thur", "Fri"],
       selected: 1,
       classTable: [],
       target: ''
     }
   },
   methods: {
-    display () {
-      this.isRow = !this.isRow;
-    },
     edit (e) {
       this.isEdit = !this.isEdit;
       this.target = e.currentTarget;
@@ -140,6 +138,9 @@ export default {
     }
   },
   computed: {
+    isRow () {
+      return this.layout == 'row';
+    },
     classData () {
       return this.$localStorage.get('classList');
     },
