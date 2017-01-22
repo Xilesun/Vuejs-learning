@@ -2,6 +2,7 @@
   <form class="set-festivals">
     <label for="name">Name:</label><input v-model="name" type="input" id="name"></input><br />
     <label for="start">Start:</label>
+    <!-- 月份和天数是联动的，而且需要考虑 28,29,30,31 的问题 -->
     <select v-model="selected_m" id="start">
       <option v-for="month in months" :value="month">{{ month }}</option>
     </select>
@@ -29,6 +30,7 @@ export default {
       name: '',
       start: '',
       period: '',
+      // 这个月份应该是动态获取的
       months: ['09', '10', '11', '12', '01'],
       selected_m: '09',
       selected_d: 1
